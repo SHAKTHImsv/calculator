@@ -10,6 +10,8 @@
     <div class="container">
         <div class="calculator">
             <input type="text" placeholder="0" id="outputscreen">
+            <button class="voice-button" onclick="startListening()">🎤</button> <!-- Voice input button -->
+
             <button onclick="Clear()">Cl</button>
             <button onclick="del()">DEL</button>
             <button onclick="display('%')">%</button> 
@@ -32,26 +34,52 @@
         </div>
     </div>
     <script>
-        let outputScreen=document.getElementById("outputscreen")
-        function display(num){
-            outputScreen.value +=num;
+        let outputScreen = document.getElementById("outputscreen");
 
+        function display(num) {
+            outputScreen.value += num;
         }
-        function calculate(){
-            try{
-                outputScreen.value=eval(outputScreen.value);
-            }
-            catch(err){
-                alert("invalid")
-            }
 
+        function calculate() {
+            try {
+                outputScreen.value = eval(outputScreen.value);
+                speak(outputScreen.value); // Speak the result
+            } catch (err) {
+                alert("Invalid");
+            }
         }
-        function Clear(){
-            outputScreen.value=" ";
+
+        function Clear() {
+            outputScreen.value = "";
         }
-        function del(){
-            outputScreen.value=outputScreen.value.slice(0,-1);
+
+        function del() {
+            outputScreen.value = outputScreen.value.slice(0, -1);
         }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Voice recognition functionality
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        function startListening() {
+            recognition.start();
+        }
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            outputScreen.value = transcript; // Update display with recognized text
+            calculate(); // Automatically calculate if needed
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Error occurred in recognition: " + event.error);
+        };
     </script>
     
 </body>
