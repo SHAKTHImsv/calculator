@@ -19,7 +19,7 @@
     padding: 15px;
     border-radius: 30px;
     box-shadow: inset 5px 5px 12px #ffffff,
-                5px 5px 12px #ffffff;
+                5px 5px 12px rgba(0, 0, 0, 0.16);
     display: grid;
     grid-template-columns: repeat(4, 70px);
     position: relative; /* Position relative for absolute positioning of the voice button */
@@ -31,7 +31,7 @@ input {
     width: 260px;
     background-color: #ecf0f3;
     box-shadow: inset -5px -5px 12px #ffffff,
-                inset: 5px 5px 12px rgba(0, 0, 0, .16);
+                inset 5px 5px 12px rgba(0, 0, 0, 0.16);
     border: none;
     border-radius: 30px;
     color: rgb(70, 70, 70);
@@ -50,7 +50,7 @@ button {
     font-size: 18px;
     background-color: #ecf0f3;
     box-shadow: -5px -5px 12px #ffffff,
-                5px 5px 12px rgba(0, 0, 0, .16);
+                5px 5px 12px rgba(0, 0, 0, 0.16);
     border-radius: 50%;
     border: none;
 }
@@ -59,10 +59,10 @@ button {
     width: 115px;
     border-radius: 40px;
     box-shadow: -5px -5px 12px #ffffff,
-                5px 5px 12px rgba(0, 0, 0, .16);
+                5px 5px 12px rgba(0, 0, 0, 0.16);
 }
 
-/* New styles for the voice button */
+/* Styles for the voice button */
 .voice-button {
     position: absolute;
     top: 40px; /* Align with the input */
@@ -72,10 +72,11 @@ button {
     border-radius: 50%; /* Circular button */
     background-color: #ecf0f3;
     box-shadow: -5px -5px 12px #ffffff,
-                5px 5px 12px rgba(0, 0, 0, .16);
+                5px 5px 12px rgba(0, 0, 0, 0.16);
     font-size: 24px; /* Icon size */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    z-index: 1; /* Ensure it appears above other elements */
 }
