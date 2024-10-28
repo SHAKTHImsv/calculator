@@ -28,7 +28,7 @@
 input {
     grid-column: span 4;
     height: 70px;
-    width: 260px;
+    width: calc(100% - 80px); /* Adjust width to accommodate the mic button */
     background-color: #ecf0f3;
     box-shadow: inset -5px -5px 12px #ffffff,
                 inset 5px 5px 12px rgba(0, 0, 0, 0.16);
@@ -39,8 +39,9 @@ input {
     text-align: end;
     margin: auto;
     margin-top: 40px;
-    margin-bottom: 40px;
     padding: 20px;
+    position: relative; /* Ensure input is relative to allow button placement */
+    z-index: 1; /* Ensure it appears above other elements */
 }
 
 button {
@@ -78,5 +79,5 @@ button {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 1; /* Ensure it appears above other elements */
+    z-index: 2; /* Ensure it appears above other elements */
 }
