@@ -28,7 +28,7 @@
 input {
     grid-column: span 4;
     height: 70px;
-    width: calc(100% - 80px); /* Adjust width to accommodate the mic button */
+    width: 260px;
     background-color: #ecf0f3;
     box-shadow: inset -5px -5px 12px #ffffff,
                 inset 5px 5px 12px rgba(0, 0, 0, 0.16);
@@ -56,20 +56,11 @@ button {
     border: none;
 }
 
-.equal {
-    width: 115px;
-    border-radius: 40px;
-    box-shadow: -5px -5px 12px #ffffff,
-                5px 5px 12px rgba(0, 0, 0, 0.16);
-}
 
 /* Styles for the voice button */
 .voice-button {
-    position: absolute;
-    top: 40px; /* Align with the input */
-    right: 15px; /* Space from the right edge */
-    height: 70px; /* Match input height */
-    width: 70px; /* Size of the voice button */
+    height: 50px; /* Match other button heights */
+    width: 50px; /* Size of the voice button */
     border-radius: 50%; /* Circular button */
     background-color: #ecf0f3;
     box-shadow: -5px -5px 12px #ffffff,
@@ -79,5 +70,4 @@ button {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 2; /* Ensure it appears above other elements */
 }
