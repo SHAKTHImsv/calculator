@@ -1,83 +1,99 @@
-var record = document.querySelector('#microphone');
-record.onclick = function(){
-    console.log("inside click");
-    record.classList.add('record');
-    var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
-    recognition.lang = 'en-US';
-                recognition.interimResults = false;
-                recognition.maxAlternatives = 5;
-                recognition.start();
+let outputScreen = document.getElementById("outputscreen");
 
-                recognition.onresult = function(event) {
-                    var input = event.results[0][0].transcript;
-                    console.log('You said: ', event.results[0][0].transcript);
-                    document.querySelector("#text-output").innerHTML= input;
-                    setTimeout(function(){
-                        evaluate(input)
-                    },2000);
-                   
-                    record.classList.remove('record');
-                };            
+function display(num) {
+    outputScreen.value += num;
 }
-function evaluate(input){
-     try{
-                       str= eval(input);
-                        document.querySelector("#text-output").innerHTML= str;
-                    }
-                    catch(e){
-                        document.querySelector("#text-output").innerHTML= "";
-                    }
-}
-var numbers = document.querySelectorAll(".number");
-var operator = document.querySelectorAll(".operator");
-var str ="";
-Array.prototype.forEach.call(numbers,function(number){
-                             number.onclick = addStr;
-                             })
-Array.prototype.forEach.call(operator,function(operator){
-                             operator.onclick = startCalc;
-                             })
-function addStr(e){
-    str = str+""+e.target.innerHTML;
-    document.querySelector("#text-output").innerHTML = str;
-    console.log(str);
-}
-function startCalc(e){
-    value = e.target.innerHTML
-    if(value == "="){
-        str = eval(str);
-    }
-   
-    else{
-        if(!isNaN(str.charAt(str.length-1)) ||str.charAt(str.length-1)==")")
-            str = str+""+e.target.innerHTML;
-    }
-    document.querySelector("#text-output").innerHTML = str;
-    console.log(str);
-}
-var clear = document.querySelector("#clear");
-clear.onclick = function(){
-    str = "";
-    document.querySelector("#text-output").innerHTML = str;
-}
-var backspace = document.querySelector("#backspace");
-backspace.onclick = function(){
-    str = str.substring(0, str.length-1);
-    document.querySelector("#text-output").innerHTML = str;
-}
-var sign = document.querySelector("#sign");
-sign.onclick = function(){
-    var i=1,char1,char2,val=str.substring(str.length-i, str.length);
-    while(!isNaN(val) && eval(val)>0 && i <=str.length){
-        i++;
-        val=str.substring(str.length-i, str.length);
-    }
-    i--;
-    char1 = str.charAt(str.length-i-1);
-    char2 = str.charAt(str.length-i-2);
-    if((i==str.length||!isNaN(char2))&&i!=0){
-    str =str.substring(0, str.length-i) + "(-"+ str.substring(str.length-i, str.length)+")";
-    document.querySelector("#text-output").innerHTML = str;
+
+function calculate() {
+    try {
+        outputScreen.value = eval(outputScreen.value);
+        speak(outputScreen.value); // Speak the result
+    } catch (err) {
+        alert("Invalid");
     }
 }
-var output = document.querySelector("#text-output");
+
+function Clear() {
+    outputScreen.value = "";
+}
+
+function del() {
+    outputScreen.value = outputScreen.value.slice(0, -1);
+}
+
+function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+}
+
+// Voice recognition functionality
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.continuous = false;
+recognition.interimResults = false;
+
+function startListening() {
+    recognition.start();
+}
+
+recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.toLowerCase(); // Convert to lowercase for easier matching
+    console.log(transcript); // Debugging line to see the spoken command
+
+    // Parse the command
+    const words = transcript.split(" ");
+    
+    // Handle multiplication
+    if (words.includes("multiply") || words.includes("times")) {
+        const index = words.indexOf("multiply") !== -1 ? words.indexOf("multiply") : words.indexOf("times");
+        const num1 = parseFloat(words[index - 1]);
+        const num2 = parseFloat(words[index + 1]);
+
+        if (!isNaN(num1) && !isNaN(num2)) {
+            const result = num1 * num2;
+            outputScreen.value = result;
+            speak(result); // Speak the result
+        } else {
+            speak("Please say two numbers to multiply.");
+        }
+    }
+    // Handle division
+    else if (words.includes("divide") || words.includes("over")) {
+        const index = words.indexOf("divide") !== -1 ? words.indexOf("divide") : words.indexOf("over");
+        const num1 = parseFloat(words[index - 1]);
+        const num2 = parseFloat(words[index + 1]);
+
+        if (!isNaN(num1) && !isNaN(num2)) {
+            if (num2 !== 0) {
+                const result = num1 / num2;
+                outputScreen.value = result;
+                speak(result); // Speak the result
+            } else {
+                speak("Cannot divide by zero.");
+            }
+        } else {
+            speak("Please say two numbers to divide.");
+        }
+    }
+    // Handle percentage
+    else if (words.includes("percent") || words.includes("percentage")) {
+        const index = words.indexOf("percent") !== -1 ? words.indexOf("percent") : words.indexOf("percentage");
+        const num = parseFloat(words[index - 1]);
+
+        if (!isNaN(num)) {
+            const result = num / 100; // Calculate percentage
+            outputScreen.value = result;
+            speak(result); // Speak the result
+        } else {
+            speak("Please say a number followed by percent.");
+        }
+    } 
+    else {
+        // Handle other calculations
+        outputScreen.value = transcript; // For direct expressions like "2 + 2"
+        calculate(); // Automatically calculate if needed
+    }
+};
+
+recognition.onerror = (event) => {
+    console.error("Error occurred in recognition: " + event.error);
+};
