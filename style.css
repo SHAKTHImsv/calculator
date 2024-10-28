@@ -1,66 +1,81 @@
-*{
+* {
     margin: 0;
-    padding:0;
-    box-sizing:border-box;
-    background-color:#ecf0f3;
-    font-family:sans-serif;
-    outline:none;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #ecf0f3;
+    font-family: sans-serif;
+    outline: none;
 }
-.container{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-   
 
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.calculator{
-    background-color:#ecf0f3;
-    padding:15px;
-    border-radius:30pz;
+
+.calculator {
+    background-color: #ecf0f3;
+    padding: 15px;
+    border-radius: 30px;
     box-shadow: inset 5px 5px 12px #ffffff,
-                      5px 5px 12px #ffffff;
-    display:grid;
-    grid-template-columns: repeat(4,70px);
-
+                5px 5px 12px #ffffff;
+    display: grid;
+    grid-template-columns: repeat(4, 70px);
+    position: relative; /* Position relative for absolute positioning of the voice button */
 }
-input{
-    grid-column:span 4;
-    height:70px;
-    width:260px;
-    background-color:#ecf0f3;
-    box-shadow:inset -5px -5px 12px #ffffff;
-                inset:       5px 5px 12px rgba(0,0,0,.16);
-    border:none;
-    border-radius:30px;
-    color:rgb(70,70,70);
-    font-size:50px;
-    text-align:end;
-    margin:auto;
-    margin-top:40px;
-    margin-bottom:40px;
-    padding:20px;
 
-
-
-
+input {
+    grid-column: span 4;
+    height: 70px;
+    width: 260px;
+    background-color: #ecf0f3;
+    box-shadow: inset -5px -5px 12px #ffffff,
+                inset: 5px 5px 12px rgba(0, 0, 0, .16);
+    border: none;
+    border-radius: 30px;
+    color: rgb(70, 70, 70);
+    font-size: 50px;
+    text-align: end;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 20px;
 }
-button{
-    height:50px;
-    width:50px;
-    
-    margin:8px;
-    font-size:18px;
-    background-color:#ecf0f3;
-    box-shadow:-5px -5px 12px #ffffff,
-                   5px 5px 12px rgba(0,0,0,.16);
-    border-radius:50%;
-    border:none;
 
+button {
+    height: 50px;
+    width: 50px;
+    margin: 8px;
+    font-size: 18px;
+    background-color: #ecf0f3;
+    box-shadow: -5px -5px 12px #ffffff,
+                5px 5px 12px rgba(0, 0, 0, .16);
+    border-radius: 50%;
+    border: none;
 }
-.equal{
-    width:115px;
-    border-radius:40px;
-    box-shadow:-5px -5px 12px #ffffff,
-                   5px 5px 12px rgba(0,0,0,.16);
+
+.equal {
+    width: 115px;
+    border-radius: 40px;
+    box-shadow: -5px -5px 12px #ffffff,
+                5px 5px 12px rgba(0, 0, 0, .16);
+}
+
+/* New styles for the voice button */
+.voice-button {
+    position: absolute;
+    top: 40px; /* Align with the input */
+    right: 15px; /* Space from the right edge */
+    height: 70px; /* Match input height */
+    width: 70px; /* Size of the voice button */
+    border-radius: 50%; /* Circular button */
+    background-color: #ecf0f3;
+    box-shadow: -5px -5px 12px #ffffff,
+                5px 5px 12px rgba(0, 0, 0, .16);
+    font-size: 24px; /* Icon size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
